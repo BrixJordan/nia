@@ -29,6 +29,8 @@ Route::get('/stickers/{id}/edit', [StickerController::class, 'edit'])->name('sti
 Route::put('/stickers/{id}', [StickerController::class, 'update'])->name('stickers.update');
 Route::delete('/stickers/{id}', [StickerController::class, 'destroy'])->name('stickers.destroy');
 
+Route::resource('stickers', StickerController::class);
+
 
 
 

@@ -12,12 +12,20 @@ class StickerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $stickers = Sticker::all();
-         // Fetch all stickers from the database
-        return view('stickers.index', compact('stickers'));
-    }
+    public function index(Request $request)
+{
+    $search = $request->input('search');
+    $stickers = Sticker::when($search, function ($query, $search) {
+            return $query->where('accountable', 'like', '%' . $search . '%')
+                         ->orWhere('property_no', 'like', '%' . $search . '%')
+                         ->orWhere('serial_no', 'like', '%' . $search . '%')
+                         ->orWhere('model_no', 'like', '%' . $search . '%');
+        })
+        ->orderBy('accountable') // Sort by accountable
+        ->paginate(3); 
+
+    return view('stickers.index', compact('stickers', 'search'));
+}
 
     /**
      * Show the form for creating a new resource.

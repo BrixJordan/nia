@@ -1,3 +1,4 @@
+<!-- navigation.blade.php -->
 <div>
     <!-- Top Navigation -->
     <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
@@ -11,12 +12,7 @@
                         </a>
                     </div>
 
-                    <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Dashboard') }}
-                        </x-nav-link>
-                    </div>
+                    
                 </div>
 
                 <!-- Settings Dropdown -->
@@ -54,14 +50,23 @@
     </nav>
 
     <!-- Side Navigation -->
-    <div class="flex">
+    <div class="flex text-left">
         <div class="side-nav">
-            <ul>
-                <li><a href="{{ route('dashboard') }}">Home</a></li>
-                <li><a href="{{ route('stickers.index') }}">List</a></li>
-                <li><a href="#">ICS</a></li>
-            </ul>
+        <ul>
+    <li>
+        <a href="{{ route('dashboard') }}">
+            <i class="fas fa-home mr-2"></i> Home
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('stickers.index') }}">
+            <i class="fas fa-list mr-2"></i> List
+        </a>
+    </li>
+</ul>
+
         </div>
+        
 
         <style>
             .side-nav {
@@ -111,3 +116,4 @@
         </main>
     </div>
 </div>
+
