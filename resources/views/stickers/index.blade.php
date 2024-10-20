@@ -105,8 +105,7 @@
                 <th>Acquisition Date</th>
                 <th>Acquisition Cost</th>
                 <th>Accountable</th>
-                <th>Created At</th>
-                <th>Updated At</th>
+                
                 <th>QR Code</th>
                 <th>Image</th>
                 <th>Action</th>
@@ -123,8 +122,7 @@
                 <td>{{ $sticker->acquisition_date }}</td>
                 <td>{{ $sticker->acquisition_cost }}</td>
                 <td>{{ $sticker->accountable }}</td>
-                <td>{{ $sticker->created_at }}</td>
-                <td>{{ $sticker->updated_at }}</td>
+                
                 <td>
                     @if($sticker->qr_code_path)
                         <img src="{{ asset('images/qrcodes/' . basename($sticker->qr_code_path)) }}" alt="QR Code" style="width: 100px;">

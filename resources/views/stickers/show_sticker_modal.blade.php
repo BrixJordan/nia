@@ -11,6 +11,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <title>Document</title>
 </head>
 <style>
@@ -57,19 +59,17 @@
     }
 
     .qrcode {
-    background-color: #d3d3d3;
-    border: 1px solid #fff;
-    width: 100%;
-    height: 100px; /* Maintain the height */
+    
+    
+ /* Maintain the height */
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #000;
+    
 }
 
 .qrcode img {
-    max-width: 100%; /* Ensure the image doesn't overflow */
-    max-height: 100%; /* Ensure the image fits within the height */
+/* Ensure the image fits within the height */
     object-fit: contain; /* Maintain aspect ratio */
 }
 
@@ -98,13 +98,19 @@
         height: 30px;
         border: 1px solid white;
         margin-top: 5px;
+
+        
     }
+    .field-value{
+        font-weight: bold;
+            
+        }
 </style>
 <body>
 
 <!-- show_sticker_modal.blade.php -->
 <div class="modal fade" id="showModal{{ $sticker->id }}" tabindex="-1" aria-labelledby="showModalLabel{{ $sticker->id }}" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="showModalLabel{{ $sticker->id }}">Sticker Details</h1>
@@ -246,8 +252,10 @@
     </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" id="downloadImage">Download as Image</button>
+</div>
+
         </div>
     </div>
 </div>
@@ -255,4 +263,18 @@
     
 </body>
 </html>
+
+<script>
+    document.getElementById('downloadImage').addEventListener('click', function () {
+        const stickerElement = document.querySelector('.sticker');
+        
+        html2canvas(stickerElement).then(canvas => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'sticker.png';
+            link.click();
+        });
+    });
+</script>
+
 
