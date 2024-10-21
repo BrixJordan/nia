@@ -52,7 +52,7 @@
     }
 
     .field-value {
-        background-color: #d3d3d3;
+        background-color: white;
         height: 30px;
         border: 1px solid #fff;
         margin-bottom: 10px;
@@ -94,7 +94,7 @@
     }
 
     .signature-box {
-        background-color: #d3d3d3;
+        background-color: white;
         height: 30px;
         border: 1px solid white;
         margin-top: 5px;
