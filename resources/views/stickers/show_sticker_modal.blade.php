@@ -259,11 +259,6 @@
         </div>
     </div>
 </div>
-
-    
-</body>
-</html>
-
 <script>
     document.getElementById('downloadImage').addEventListener('click', function () {
         const stickerElement = document.querySelector('.sticker');
@@ -276,5 +271,10 @@
         });
     });
 </script>
+
+    
+</body>
+</html>
+
 
 

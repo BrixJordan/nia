@@ -218,9 +218,15 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this sticker?');">Delete</button>
                     </form>
-
+                    <!-- Show Modal Button -->
+                @if($sticker->acquisition_cost >= 50000)
                     <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#showModal{{ $sticker->id }}">Show</a>
                     @include('stickers.show_sticker_modal', ['sticker' => $sticker])
+                @else
+                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#yellowModal{{ $sticker->id }}">Show</a>
+                    @include('stickers.yellow_sticker_modal', ['sticker' => $sticker])
+                @endif
+
                 </td>
             </tr>
             @endforeach
