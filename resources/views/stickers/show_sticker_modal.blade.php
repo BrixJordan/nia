@@ -94,7 +94,7 @@
     }
 
     .signature-box {
-        background-color: white;
+        background-color: white     ;
         height: 30px;
         border: 1px solid white;
         margin-top: 5px;

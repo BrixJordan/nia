@@ -95,7 +95,7 @@
     </form>
 
     <table class="table table-bordered">
-        <thead>
+        <thead class="text-center">
             <tr>
                 <th>ID</th>
                 <th>Property No</th>
@@ -107,7 +107,7 @@
                 <th>Accountable</th>
                 
                 <th>QR Code</th>
-                <th>Image</th>
+                <th>201</th>
                 <th>Action</th>
             </tr>
         </thead>

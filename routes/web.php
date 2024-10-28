@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StickerController;
+use App\Http\Controllers\DTRController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,6 +31,11 @@ Route::put('/stickers/{id}', [StickerController::class, 'update'])->name('sticke
 Route::delete('/stickers/{id}', [StickerController::class, 'destroy'])->name('stickers.destroy');
 
 Route::resource('stickers', StickerController::class);
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('dtr', DTRController::class);
+});
+
 
 
 

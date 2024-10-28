@@ -55,14 +55,19 @@
         <ul>
     <li>
         <a href="{{ route('dashboard') }}">
-            <i class="fas fa-home mr-2"></i> Home
+            <i class="fas fa-home mr-2"></i> HOME
         </a>
     </li>
     <li>
         <a href="{{ route('stickers.index') }}">
-            <i class="fas fa-list mr-2"></i> List
+            <i class="fas fa-list mr-2"></i> STICKERS
         </a>
     </li>
+    <li>
+    <a href="{{ route('dtr.index') }}">
+        <i class="fas fa-list mr-2"></i> DTR
+    </a>
+</li>
 </ul>
 
         </div>
