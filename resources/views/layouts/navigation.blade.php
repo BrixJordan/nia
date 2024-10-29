@@ -68,6 +68,11 @@
         <i class="fas fa-list mr-2"></i> DTR
     </a>
 </li>
+<li>
+    <a href="{{ route('employee.index') }}">
+        <i class="fas fa-list mr-2"></i> EMPLOYEES
+    </a>
+</li>
 </ul>
 
         </div>

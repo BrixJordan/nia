@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StickerController;
 use App\Http\Controllers\DTRController;
+use App\Http\Controllers\employeeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,6 +36,13 @@ Route::resource('stickers', StickerController::class);
 Route::middleware(['auth'])->group(function () {
     Route::resource('dtr', DTRController::class);
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('employee', employeeController::class);
+    Route::post('/upload-excel', [EmployeeController::class, 'importExcel'])->name('employees.import');
+
+});
+
 
 
 
