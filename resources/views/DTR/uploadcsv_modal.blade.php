@@ -19,7 +19,7 @@
                     <h5 class="modal-title" id="importModalLabel">Import Biometric Data</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('dtr.import') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
