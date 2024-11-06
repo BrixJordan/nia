@@ -11,12 +11,17 @@
             </div>
 
             <!-- Export Button -->
-            <a href="" class="btn btn-success">Export DTR</a>
+             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exportModal">
+                Export DTR</button>
+
         </div>
+        
     </div>
 
-    <!-- Include Modal from DTR Folder -->
+   
     @include('DTR.uploadcsv_modal')
+    @include('DTR.export_modal', ['employees' => $employees])
+   
 
     <script>
         $(document).ready(function() {

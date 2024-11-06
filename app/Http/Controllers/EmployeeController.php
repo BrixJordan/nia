@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Employee;
-use Illuminate\Http\Request;  // <-- Add this import
+use Illuminate\Http\Request;  
 use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
@@ -51,52 +51,10 @@ class EmployeeController extends Controller
         }
     }
 
-    public function generateDtr(Request $request)
-{
-    $request->validate([
-        'employee' => 'required',
-        'from_date' => 'required|date',
-        'to_date' => 'required|date|after_or_equal:from_date',
-    ]);
 
-    $acc_no = $request->employee;
-    $from = $request->from_date . ' 00:00:00';
-    $to = $request->to_date . ' 23:59:59';
+ 
 
-    // Retrieve logs for the employee within the date range
-    $logs = \DB::table('dtr_records')
-        ->where('acc_no', $acc_no)
-        ->whereBetween('date_time', [$from, $to])
-        ->orderBy('date_time')
-        ->get();
 
-    // Group logs by day and process for morning/afternoon
-    $dtr = [];
-    foreach ($logs as $log) {
-        $day = date('Y-m-d', strtotime($log->date_time));
-
-        if (!isset($dtr[$day])) {
-            $dtr[$day] = ['morning_in' => null, 'morning_out' => null, 'afternoon_in' => null, 'afternoon_out' => null];
-        }
-
-        $time = date('H:i:s', strtotime($log->date_time));
-
-        if ($time <= '12:00:00') {
-            if (!$dtr[$day]['morning_in']) {
-                $dtr[$day]['morning_in'] = $time;
-            } else {
-                $dtr[$day]['morning_out'] = $time;
-            }
-        } else {
-            if (!$dtr[$day]['afternoon_in']) {
-                $dtr[$day]['afternoon_in'] = $time;
-            } else {
-                $dtr[$day]['afternoon_out'] = $time;
-            }
-        }
-    }
-
-    return view('dtr.result', compact('dtr', 'acc_no'));
-}
+    
 
 }

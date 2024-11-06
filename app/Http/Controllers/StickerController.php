@@ -40,7 +40,7 @@ class StickerController extends Controller
      */
     public function store(Request $request)
 {
-    // Validate the request
+ 
     $request->validate([
         'property_no' => 'required',
         'serial_no' => 'required',
@@ -52,23 +52,18 @@ class StickerController extends Controller
         'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
-    // Handle the image upload
+  
     if ($request->hasFile('image')) {
-        // Save the image in the public/images folder
         $imagePath = $request->file('image')->store('images', 'public');
 
-        // Generate the image URL
-        $imageUrl = asset('storage/' . $imagePath); // This should point to public/storage/images
+        $imageUrl = asset('storage/' . $imagePath); 
 
-        // Use GoQR API to generate the QR code for the image URL
         $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?data=' . urlencode($imageUrl) . '&size=200x200';
 
-        // Download the generated QR code image
         $qrCodeImage = file_get_contents($qrCodeUrl);
         $qrCodePath = 'images/qrcodes/' . time() . '.png';
         file_put_contents(public_path($qrCodePath), $qrCodeImage);
 
-        // Create the sticker record in the database
         Sticker::create([
             'property_no' => $request->property_no,
             'serial_no' => $request->serial_no,
@@ -77,8 +72,8 @@ class StickerController extends Controller
             'acquisition_date' => $request->acquisition_date,
             'acquisition_cost' => $request->acquisition_cost,
             'accountable' => $request->accountable,
-            'image_path' => $imagePath, // Store the image path
-            'qr_code_path' => $qrCodePath, // Store the QR code path
+            'image_path' => $imagePath, 
+            'qr_code_path' => $qrCodePath, 
         ]);
     }
 
@@ -99,9 +94,9 @@ class StickerController extends Controller
      */
     public function edit($id)
 {
-    // Retrieve the sticker by its ID
+   
     $sticker = Sticker::findOrFail($id);
-    return response()->json($sticker); // Return sticker data as JSON
+    return response()->json($sticker); 
 }
 
 public function update(Request $request, $id)
@@ -118,9 +113,9 @@ public function update(Request $request, $id)
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
-    // Find the sticker to update
+
     $sticker = Sticker::findOrFail($id);
-    // Update sticker details
+
     $sticker->property_no = $request->property_no;
     $sticker->serial_no = $request->serial_no;
     $sticker->model_no = $request->model_no;
@@ -129,13 +124,11 @@ public function update(Request $request, $id)
     $sticker->acquisition_cost = $request->acquisition_cost;
     $sticker->accountable = $request->accountable;
 
-    // Handle the image upload if a new image is provided
     if ($request->hasFile('image')) {
-        // Save the new image and update the image_path
+
         $sticker->image_path = $request->file('image')->store('stickers', 'public');
     }
 
-    // Save the updated sticker
     $sticker->save();
 
     return redirect()->route('stickers.index')->with('success', 'Sticker updated successfully!');
@@ -147,23 +140,21 @@ public function update(Request $request, $id)
      */
     public function destroy($id)
 {
-    // Find the sticker by ID
+   
     $sticker = Sticker::findOrFail($id);
 
-    // Delete the QR code file if it exists
+
     if ($sticker->qr_code_path && file_exists(public_path($sticker->qr_code_path))) {
         unlink(public_path($sticker->qr_code_path));
     }
 
-    // Delete the image file if it exists
     if ($sticker->image_path && file_exists(public_path('storage/' . $sticker->image_path))) {
         unlink(public_path('storage/' . $sticker->image_path));
     }
 
-    // Delete the sticker record from the database
+   
     $sticker->delete();
 
-    // Redirect back with a success message
     return redirect()->route('stickers.index')->with('success', 'Sticker deleted successfully.');
 }
 }

@@ -36,11 +36,18 @@ Route::resource('stickers', StickerController::class);
 Route::middleware(['auth'])->group(function () {
     Route::resource('dtr', DTRController::class);
     Route::post('/dtr/upload-excel', [DTRController::class, 'importExcel'])->name('dtr.import'); 
+    Route::get('/dtr', [DTRController::class, 'index'])->name('dtr.index');
+    Route::get('/dtr/export', [DTRController::class, 'export'])->name('dtr.export');
+
+ 
+ 
 });
+
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('employee', EmployeeController::class);
     Route::post('/employee/upload-excel', [EmployeeController::class, 'importExcel'])->name('employees.import');
+    
 });
 
 

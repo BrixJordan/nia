@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('dtr_records', function (Blueprint $table) {
             $table->id();
-            $table->string('acc_no');  // acc_no matches employee acc_no type
+            $table->string('acc_no');
             $table->dateTime('date_time');
             $table->timestamps();
 
-            // Foreign key to employees table
+
             $table->foreign('acc_no')->references('acc_no')->on('employees')->onDelete('cascade');
         });
     }
