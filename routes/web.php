@@ -34,6 +34,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dtr/upload-excel', [DTRController::class, 'importExcel'])->name('dtr.import');
     Route::get('/dtr/export', [DTRController::class, 'export'])->name('dtr.export');
     Route::get('/dtr/generate', [DTRController::class, 'generateDTR'])->name('dtr.generate');
+    Route::post('/dtr/download', [DTRController::class, 'downloadDTR'])->name('dtr.download');
+
+    
 });
 
 // Employee routes

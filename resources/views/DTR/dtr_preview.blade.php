@@ -24,7 +24,16 @@
                 @endforeach
             </tbody>
         </table>
+        <form action="{{ route('dtr.download') }}" method="POST">
+            @csrf
+            <input type="hidden" name="employee" value="{{ $employee->id }}">
+            <input type="hidden" name="from_date" value="{{ request('from_date') }}">
+            <input type="hidden" name="to_date" value="{{ request('to_date') }}">
+            <button type="submit" class="btn btn-primary">Download as Excel</button>
+        </form>
+
     </div>
+
 </x-app-layout>
 
 
