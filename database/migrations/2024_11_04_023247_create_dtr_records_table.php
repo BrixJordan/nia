@@ -17,11 +17,10 @@ return new class extends Migration
             $table->dateTime('date_time');
             $table->timestamps();
 
-
+            // Foreign key constraint
             $table->foreign('acc_no')->references('acc_no')->on('employees')->onDelete('cascade');
         });
     }
-
     /**
      * Reverse the migrations.
      */

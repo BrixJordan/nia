@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Illuminate\Support\Facades\Log;
+use App\Exports\DTRExport;
 
 class DTRController extends Controller
 {
@@ -21,58 +22,76 @@ class DTRController extends Controller
         return view('DTR.index', compact('employees'));
     }
 
-    public function export(Request $request)
-{
-    $request->validate([
-        'employee' => 'required',
-        'from_date' => 'required|date',
-        'to_date' => 'required|date|after_or_equal:from_date',
-    ]);
+//     public function export(Request $request)
+// {
+//     // Validate input
+//     $request->validate([
+//         'employee' => 'required',
+//         'from_date' => 'required|date',
+//         'to_date' => 'required|date|after_or_equal:from_date',
+//     ]);
 
-    $acc_no = $request->employee;
-    $from = $request->from_date . ' 00:00:00';
-    $to = $request->to_date . ' 23:59:59';
+//     $acc_no = $request->employee;
+//     $from = $request->from_date . ' 00:00:00';
+//     $to = $request->to_date . ' 23:59:59';
 
-   
-    $logs = \DB::table('dtr_records')
-        ->where('acc_no', $acc_no)
-        ->whereBetween('date_time', [$from, $to])
-        ->orderBy('date_time')
-        ->get();
+//     // Get logs for the given employee and date range
+//     $logs = \DB::table('dtr_records')
+//         ->where('acc_no', $acc_no)
+//         ->whereBetween('date_time', [$from, $to])
+//         ->orderBy('date_time')
+//         ->get();
 
-    $dtr = [];
-    foreach ($logs as $log) {
-        $day = date('Y-m-d', strtotime($log->date_time));
+//     // Initialize the DTR collection
+//     $dtr = collect();
 
-        if (!isset($dtr[$day])) {
-            $dtr[$day] = ['morning_in' => null, 'morning_out' => null, 'afternoon_in' => null, 'afternoon_out' => null];
-        }
+//     // Loop through each log and process time records
+//     foreach ($logs as $log) {
+//         $day = date('Y-m-d', strtotime($log->date_time));
 
-        $time = date('H:i:s', strtotime($log->date_time));
+//         // If the day doesn't exist in the collection, initialize it with default values
+//         if (!$dtr->has($day)) {
+//             $dtr->put($day, ['morning_in' => null, 'morning_out' => null, 'afternoon_in' => null, 'afternoon_out' => null]);
+//         }
 
-        if ($time <= '12:00:00') {
-            if (!$dtr[$day]['morning_in']) {
-                $dtr[$day]['morning_in'] = $time;
-            } else {
-                $dtr[$day]['morning_out'] = $time;
-            }
-        } else {
-            if (!$dtr[$day]['afternoon_in']) {
-                $dtr[$day]['afternoon_in'] = $time;
-            } else {
-                $dtr[$day]['afternoon_out'] = $time;
-            }
-        }
-    }
+//         $time = date('H:i:s', strtotime($log->date_time));
 
-    return view('dtr.result', compact('dtr', 'acc_no'));
-}
+//         // Process the morning times (before 12:00)
+//         if ($time <= '12:00:00') {
+//             if (!$dtr[$day]['morning_in']) {
+//                 $dtr->put($day, array_merge($dtr->get($day), ['morning_in' => $time]));
+//             } else {
+//                 $dtr->put($day, array_merge($dtr->get($day), ['morning_out' => $time]));
+//             }
+//         }
+//         // Process the afternoon times (after 12:00)
+//         else {
+//             if (!$dtr[$day]['afternoon_in']) {
+//                 $dtr->put($day, array_merge($dtr->get($day), ['afternoon_in' => $time]));
+//             } else {
+//                 $dtr->put($day, array_merge($dtr->get($day), ['afternoon_out' => $time]));
+//             }
+//         }
+//     }
+
+//     // Create a collection of DTR data with the date and times
+//     $dtrCollection = $dtr->map(function ($times, $date) {
+//         return array_merge(['date' => $date], $times);
+//     })->values();
+
+//     // Flash success message
+//     session()->flash('success', 'DTR exported successfully for the selected employee and date range.');
+
+//     // Export the DTR data to an Excel file
+//     return Excel::download(new DTRExport($dtrCollection), 'DTR_Report.xlsx');
+// }
 
 
-   
-    /**
-     * Import data from an Excel file.
-     */
+
+
+
+
+
     public function importExcel(Request $request)
     {
         $request->validate([
@@ -131,5 +150,56 @@ class DTRController extends Controller
             return back()->with('error', 'Failed to import data: ' . $e->getMessage());
         }
     }
+
+    public function generateDTR(Request $request)
+{
+    $request->validate([
+        'employee' => 'required',
+        'from_date' => 'required|date',
+        'to_date' => 'required|date|after_or_equal:from_date',
+    ]);
+
+    $acc_no = $request->employee;
+    $from = $request->from_date . ' 00:00:00';
+    $to = $request->to_date . ' 23:59:59';
+
+    $logs = \DB::table('dtr_records')
+        ->where('acc_no', $acc_no)
+        ->whereBetween('date_time', [$from, $to])
+        ->orderBy('date_time')
+        ->get();
+
+    $dtr = collect();
+    foreach ($logs as $log) {
+        $day = date('Y-m-d', strtotime($log->date_time));
+        if (!$dtr->has($day)) {
+            $dtr->put($day, [
+                'morning_in' => 'N/A',
+                'morning_out' => 'N/A',
+                'afternoon_in' => 'N/A',
+                'afternoon_out' => 'N/A',
+            ]);
+        }
+
+        $time = date('H:i:s', strtotime($log->date_time));
+        if ($time <= '12:00:00') {
+            if ($dtr[$day]['morning_in'] === 'N/A') {
+                $dtr->put($day, array_merge($dtr->get($day), ['morning_in' => $time]));
+            } else {
+                $dtr->put($day, array_merge($dtr->get($day), ['morning_out' => $time]));
+            }
+        } else {
+            if ($dtr[$day]['afternoon_in'] === 'N/A') {
+                $dtr->put($day, array_merge($dtr->get($day), ['afternoon_in' => $time]));
+            } else {
+                $dtr->put($day, array_merge($dtr->get($day), ['afternoon_out' => $time]));
+            }
+        }
+    }
+
+    return view('DTR.dtr_preview', ['dtrRecords' => $dtr, 'employee' => Employee::find($acc_no)]);
+}
+
+
 
 }

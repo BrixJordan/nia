@@ -1,35 +1,31 @@
+<!-- DTR/dtr_preview.blade.php -->
 <x-app-layout>
     <div class="container">
-        <h1>DTR Management</h1>
-
-        <div class="">
-            <!-- Import Button -->
-            <div class="d-flex justify-content-between my-3">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importModal">
-                    Import Biometric Data (CSV)
-                </button>
-            </div>
-
-            <!-- Export Button -->
-             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exportModal">
-                Generate DTR</button>
-
-        </div>
-        
+        <h2>DTR Records for {{ $employee->full_name }}</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Morning In</th>
+                    <th>Morning Out</th>
+                    <th>Afternoon In</th>
+                    <th>Afternoon Out</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($dtrRecords as $date => $times)
+                <tr>
+                    <td>{{ $date }}</td>
+                    <td>{{ $times['morning_in'] ?? '-' }}</td>
+                    <td>{{ $times['morning_out'] ?? '-' }}</td>
+                    <td>{{ $times['afternoon_in'] ?? '-' }}</td>
+                    <td>{{ $times['afternoon_out'] ?? '-' }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-
-   
-    @include('DTR.uploadcsv_modal')
-    @include('DTR.export_modal', ['employees' => $employees])
-   
-
-    <script>
-        $(document).ready(function() {
-            $('#dtrTable').DataTable();
-        });
-    </script>
 </x-app-layout>
-
 
 
 <!DOCTYPE html>

@@ -1,5 +1,4 @@
 <!-- export_modal Modal -->
-
 <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -8,12 +7,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('dtr.export') }}" method="GET">
+                <form action="{{ route('dtr.generate') }}" method="GET">
                     @csrf
                     <!-- Select Employee -->
                     <div class="mb-3">
                         <label for="employee" class="form-label">Select Employee</label>
-                        <select class="form-select" name="acc_no" id="employee" required>
+                        <select class="form-select" name="employee" id="employee" required>
                             <option value="">Choose an Employee</option>
                             @foreach($employees as $employee)
                                 <option value="{{ $employee->acc_no }}">
@@ -26,17 +25,17 @@
                     <!-- Start Date -->
                     <div class="mb-3">
                         <label for="start_date" class="form-label">Start Date</label>
-                        <input type="date" class="form-control" name="start_date" id="start_date" required>
+                        <input type="date" class="form-control" name="from_date" id="start_date" required>
                     </div>
 
                     <!-- End Date -->
                     <div class="mb-3">
                         <label for="end_date" class="form-label">End Date</label>
-                        <input type="date" class="form-control" name="end_date" id="end_date" required>
+                        <input type="date" class="form-control" name="to_date" id="end_date" required>
                     </div>
 
                     <!-- Export Button -->
-                    <button type="submit" class="btn btn-success">Export</button>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </form>
             </div>
             <div class="modal-footer">
