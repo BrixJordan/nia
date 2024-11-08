@@ -13,7 +13,7 @@ class DTRExport implements FromArray, WithEvents
     protected $employee;
     protected $from_date;
     protected $to_date;
-    protected $templatePath = 'templates/template.xlsx'; 
+    protected $templatePath = 'templates/template.xlsx';
 
     public function __construct($dtrRecords, $employee, $from_date, $to_date)
     {
@@ -25,48 +25,57 @@ class DTRExport implements FromArray, WithEvents
 
     public function array(): array
     {
-        return []; 
+        return []; // Not used since we’re populating cells manually in registerEvents
     }
 
     public function registerEvents(): array
-    {
-        return [
-            AfterSheet::class => function (AfterSheet $event) {
-                // Load the template Excel file
-                $template = IOFactory::load(resource_path($this->templatePath));
-                $templateSheet = $template->getActiveSheet();
+{
+    return [
+        AfterSheet::class => function (AfterSheet $event) {
+            // Load the template Excel file
+            $template = IOFactory::load(resource_path($this->templatePath));
+            $templateSheet = $template->getActiveSheet();
 
-                // Set employee info in specific cells
-                $templateSheet->setCellValue('B8', $this->employee->full_name);
-                $templateSheet->setCellValue('B9', "{$this->from_date} - {$this->to_date}");
+            // Set employee info in specific cells
+            $templateSheet->setCellValue('B8', $this->employee->full_name);
+            $templateSheet->setCellValue('B9', "{$this->from_date} - {$this->to_date}");
 
-                // Map days to rows (e.g., Monday starts at row 14 for E-H columns)
-                $dayRowMap = [
-                    'Sunday' => 12,
-                    'Monday' => 13,
-                    'Tuesday' => 14,
-                    'Wednesday' => 15,
-                    'Thursday' => 16,
-                    'Friday' => 17,
-                    'Saturday' => 18,
-                ];
+            // Define starting rows for each week in the template
+            $weekRowStart = [
+                1 => 13, // Row start for first week
+                2 => 20  // Row start for second week
+            ];
 
-                // Insert DTR records based on mapped rows
-                foreach ($this->dtrRecords as $date => $times) {
-                    $dayOfWeek = date('l', strtotime($date));
-                    $row = $dayRowMap[$dayOfWeek];
+            // Determine the starting day of the week for the first day of the month
+            $firstDayOfMonth = date('Y-m-01', strtotime($this->from_date));
+            $firstWeekday = date('N', strtotime($firstDayOfMonth)); // 1 (Mon) - 7 (Sun)
 
-                    // Set cell values in the template sheet for each time entry
-                    $templateSheet->setCellValue("E{$row}", $times['morning_in'] ?? 'N/A');
-                    $templateSheet->setCellValue("F{$row}", $times['morning_out'] ?? 'N/A');
-                    $templateSheet->setCellValue("G{$row}", $times['afternoon_in'] ?? 'N/A');
-                    $templateSheet->setCellValue("H{$row}", $times['afternoon_out'] ?? 'N/A');
-                }
+            foreach ($this->dtrRecords as $date => $times) {
+                $currentDayOfWeek = date('N', strtotime($date)); // Day of the week (1-7)
+                $dayOfMonth = date('j', strtotime($date)); // Day of the month (1-31)
+                
+                // Determine the appropriate week within the month
+                $weekOfMonth = (int) ceil(($dayOfMonth + $firstWeekday - 1) / 7);
 
-                // Replace the default sheet with the modified template sheet
-                $event->sheet->getDelegate()->getParent()->removeSheetByIndex(0);
-                $event->sheet->getDelegate()->getParent()->addExternalSheet($templateSheet);
-            },
-        ];
-    }
+                // Calculate row based on week start and day of the week
+                $row = $weekRowStart[$weekOfMonth] + ($currentDayOfWeek - 1);
+
+                // Place DTR time values in the designated cells
+                $templateSheet->setCellValue("E{$row}", $times['morning_in'] ?? 'N/A');
+                $templateSheet->setCellValue("F{$row}", $times['morning_out'] ?? 'N/A');
+                $templateSheet->setCellValue("G{$row}", $times['afternoon_in'] ?? 'N/A');
+                $templateSheet->setCellValue("H{$row}", $times['afternoon_out'] ?? 'N/A');
+            }
+
+            // Replace the default sheet with the modified template sheet
+            $event->sheet->getDelegate()->getParent()->removeSheetByIndex(0);
+            $event->sheet->getDelegate()->getParent()->addExternalSheet($templateSheet);
+        },
+    ];
+}
+
+
+
+
+
 }
