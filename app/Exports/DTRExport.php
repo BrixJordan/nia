@@ -59,6 +59,9 @@ class DTRExport implements FromArray, WithEvents
                     $templateSheet->setCellValue("H{$row}", $times['afternoon_out'] ?? 'N/A');
                 }
 
+                $templateSheet->getProtection()->setSheet(true);
+                $templateSheet->getProtection()->setPassword('sandok');
+
                 $event->sheet->getDelegate()->getParent()->removeSheetByIndex(0);
                 $event->sheet->getDelegate()->getParent()->addExternalSheet($templateSheet);
             },
