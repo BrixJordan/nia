@@ -168,7 +168,6 @@ public function downloadDTR(Request $request)
     $from = $request->from_date . ' 00:00:00';
     $to = $request->to_date . ' 23:59:59';
 
-    // Retrieve employee and DTR records
     $employee = Employee::find($acc_no);
     $logs = \DB::table('dtr_records')
         ->where('acc_no', $acc_no)
@@ -204,8 +203,11 @@ public function downloadDTR(Request $request)
         }
     }
 
-    return Excel::download(new DTRExport($dtrRecords, $employee), 'DTR_' . $employee->full_name . '.xlsx');
+    return Excel::download(new DTRExport($dtrRecords, $employee, $request->from_date, $request->to_date), 'DTR_' . $employee->full_name . '.xlsx');
 }
+
+
+
 
 
 
