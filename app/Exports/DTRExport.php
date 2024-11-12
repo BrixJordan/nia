@@ -60,7 +60,7 @@ class DTRExport implements FromArray, WithEvents
                 }
 
                 $templateSheet->getProtection()->setSheet(true);
-                $templateSheet->getProtection()->setPassword('sandok');
+                $templateSheet->getProtection()->setPassword('sandok.sinigangnahilaw123');
 
                 $event->sheet->getDelegate()->getParent()->removeSheetByIndex(0);
                 $event->sheet->getDelegate()->getParent()->addExternalSheet($templateSheet);
