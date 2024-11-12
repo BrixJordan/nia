@@ -82,7 +82,7 @@
             .side-nav {
                 width: 250px;
                 height: calc(100vh - 64px); /* Adjust height to match the top nav */
-                background-color: #333;
+                background-color: #2E8B57;
                 color: #fff;
                 position: fixed;
                 top: 64px; /* Matches the top navigation height */
