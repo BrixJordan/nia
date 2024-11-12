@@ -48,7 +48,7 @@
             </div>
         </div>
     </nav>
-
+    
     <!-- Side Navigation -->
     <div class="flex text-left">
         <div class="side-nav">
@@ -121,9 +121,7 @@
         </style>
 
         <!-- Page Content -->
-        <main class="main-content">
-            {{ $slot }}
-        </main>
+        
     </div>
 </div>
 

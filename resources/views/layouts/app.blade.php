@@ -26,20 +26,24 @@
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
         <!-- Fixed Top Navigation -->
-        <div>
-    @include('layouts.navigation')
-</div>
+        <div class="fixed-top bg-white shadow"> <!-- Fixed positioning with shadow -->
+            @include('layouts.navigation')
+        </div>
 
-        <!-- Page Heading -->
-        <div class="mt-16"> <!-- Adjust margin to match navbar height -->
-    @isset($header)
-        <header style="background-color: #90EE90; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {{ $header }}
-            </div>
-        </header>
-    @endisset
-</div>
+        <!-- Page Heading and Content -->
+        <div class="pt-5 mt-5"> <!-- Add padding to prevent overlap with fixed navbar -->
+            @isset($header)
+                <header style="background-color: #90EE90; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endisset
+
+            <main class="main-content">
+                {{ $slot }}
+            </main>
+        </div>
     </div>
 </body>
 </html>

@@ -3,6 +3,11 @@
 <x-app-layout>
 <div class="container">
         <h3>Employee List</h3>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">
+        Add Employee
+         
+    </button>
+    @include('employee.create_modal')
         <div class="">
             <!-- Import Button -->
             <div class="d-flex justify-content-between my-3">
@@ -26,6 +31,7 @@
                     <th>Fullname</th>
                     <th>Department</th>
                     <th>Created_at</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +42,12 @@
                     <td>{{ $employee->full_name }}</td>
                     <td>{{ $employee->department }}</td>
                     <td>{{ $employee->created_at }}</td>
+                    <td><form action="{{route('employee.destroy', $employee->id)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this employee?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form></td>
+   
                 </tr>
                 @endforeach
             </tbody>

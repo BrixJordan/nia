@@ -19,7 +19,7 @@ class EmployeeController extends Controller
             return $query->where('full_name', 'like', "%{$search}%")
                          ->orWhere('acc_no', 'like', "%{$search}%")
                          ->orWhere('department', 'like', "%{$search}%");
-        })->paginate(10); // Adjust the number of items per page as needed
+        })->paginate(5); // Adjust the number of items per page as needed
 
         return view('employee.index', compact('employees', 'search'));
     }
@@ -50,6 +50,47 @@ class EmployeeController extends Controller
             return back()->with('error', 'Failed to import data: ' . $e->getMessage());
         }
     }
+
+    public function store(Request $request)
+{
+    // Validate the request data
+    $request->validate([
+        'acc_no' => 'required|unique:employees,acc_no|max:255',
+        'full_name' => 'required|max:255',
+        'department' => 'required|max:255',
+    ]);
+
+    try {
+        // Create the new employee
+        Employee::create([
+            'acc_no' => $request->input('acc_no'),
+            'full_name' => $request->input('full_name'),
+            'department' => $request->input('department'),
+        ]);
+
+        // Redirect back with success message
+        return redirect()->route('employee.index')->with('success', 'Employee created successfully.');
+    } catch (\Exception $e) {
+        return back()->with('error', 'Failed to create employee: ' . $e->getMessage());
+    }
+}   
+
+    public function destroy($id)
+    {
+        try {
+            $employee = Employee::findOrFail($id); 
+            $employee->delete(); 
+
+            return redirect()->route('employee.index')->with('success', 'Employee deleted successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to delete employee: ' . $e->getMessage());
+        }
+}
+
+
+
+
+
 
 
  

@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::resource('employee', EmployeeController::class);
     Route::post('/employee/upload-excel', [EmployeeController::class, 'importExcel'])->name('employees.import');
+    Route::delete('employee/{id}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
 });
 
 require __DIR__.'/auth.php';
