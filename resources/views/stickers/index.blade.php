@@ -1,9 +1,10 @@
 <x-app-layout>
-
+<h1>Stickers</h1>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Create Sticker
     </button>
+    <br>
     
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
