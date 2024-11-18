@@ -1,3 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    body {
+        background-color: #186112;
+        color: white;
+    }
+
+    .sticker {
+        border: 2px solid white;
+        background-color: #186112;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 15px;
+    }   
+
+    .header,
+    .footer {
+        text-align: center;
+        padding: 10px 0;
+        font-weight: bold;
+    }
+
+    .title {
+        text-align: center;
+        font-weight: bold;
+        padding: 10px 0;
+        font-size: 18px;
+        border-top: 2px solid white;
+        border-bottom: 2px solid white;
+
+    }
+
+    .field-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .field-value {
+        background-color: white;
+        height: 30px;
+        border: 1px solid #fff;
+        margin-bottom: 10px;
+    }
+
+    .qrcode {
+    
+    
+ /* Maintain the height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.qrcode img {
+/* Ensure the image fits within the height */
+    object-fit: contain; /* Maintain aspect ratio */
+}
+
+
+    .coa-section {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .coa-table {
+        width: 100%;
+        border: 1px solid white;
+    }
+
+    .coa-table th,
+    .coa-table td {
+        border: 1px solid white;
+        padding: 5px;
+        text-align: center;
+        color: #000;
+        background-color: #d3d3d3;
+    }
+
+    .signature-box {
+        background-color: white     ;
+        height: 30px;
+        border: 1px solid white;
+        margin-top: 5px;
+
+        
+    }
+    .field-value{
+        font-weight: bold;
+            
+        }
+</style>
+<body>
+
 <!-- yellow_sticker_modal.blade.php -->
 <div class="modal fade" id="yellowModal{{ $sticker->id }}" tabindex="-1" aria-labelledby="yellowModalLabel{{ $sticker->id }}" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -135,4 +244,9 @@
         });
     });
 </script>
+    
+</body>
+</html>
+
+
 
