@@ -20,13 +20,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Stickers routes
-Route::get('/stickers/sticker', [StickerController::class, 'index'])->name('stickers.index');
-Route::post('/stickers', [StickerController::class, 'store'])->name('stickers.store');
-Route::delete('/stickers/{id}', [StickerController::class, 'destroy'])->name('stickers.destroy');
-Route::get('/stickers/{id}/edit', [StickerController::class, 'edit'])->name('stickers.edit');
-Route::put('/stickers/{id}', [StickerController::class, 'update'])->name('stickers.update');
-Route::delete('/stickers/{id}', [StickerController::class, 'destroy'])->name('stickers.destroy');
+Route::resource('stickers', StickerController::class);
+
+
 
 // DTR routes
 Route::middleware(['auth'])->group(function () {
