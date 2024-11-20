@@ -106,7 +106,7 @@ class DTRController extends Controller
 }
 
 
-    public function generateDTR(Request $request)
+public function generateDTR(Request $request)
 {
     $request->validate([
         'employee' => 'required',
@@ -115,28 +115,40 @@ class DTRController extends Controller
     ]);
 
     $acc_no = $request->employee;
-    $from = $request->from_date . ' 00:00:00';
-    $to = $request->to_date . ' 23:59:59';
+    $from = Carbon::parse($request->from_date);
+    $to = Carbon::parse($request->to_date);
 
+    // Generate date range between from_date and to_date
+    $dateRange = [];
+    while ($from->lte($to)) {
+        $dateRange[] = $from->copy()->format('Y-m-d');
+        $from->addDay();  // Increment the date by one day
+    }
+
+    // Retrieve logs between the given date range
     $logs = \DB::table('dtr_records')
         ->where('acc_no', $acc_no)
-        ->whereBetween('date_time', [$from, $to])
+        ->whereBetween('date_time', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
         ->orderBy('date_time')
         ->get();
 
     $dtr = collect();
+
+    // Initialize the DTR records for all days within the date range
+    foreach ($dateRange as $day) {
+        $dtr->put($day, [
+            'morning_in' => 'N/A',
+            'morning_out' => 'N/A',
+            'afternoon_in' => 'N/A',
+            'afternoon_out' => 'N/A',
+        ]);
+    }
+
+    // Populate the DTR records based on the logs
     foreach ($logs as $log) {
         $day = date('Y-m-d', strtotime($log->date_time));
-        if (!$dtr->has($day)) {
-            $dtr->put($day, [
-                'morning_in' => 'N/A',
-                'morning_out' => 'N/A',
-                'afternoon_in' => 'N/A',
-                'afternoon_out' => 'N/A',
-            ]);
-        }
-
         $time = date('H:i:s', strtotime($log->date_time));
+
         if ($time <= '12:00:00') {
             if ($dtr[$day]['morning_in'] === 'N/A') {
                 $dtr->put($day, array_merge($dtr->get($day), ['morning_in' => $time]));
@@ -154,6 +166,8 @@ class DTRController extends Controller
 
     return view('DTR.dtr_preview', ['dtrRecords' => $dtr, 'employee' => Employee::find($acc_no)]);
 }
+
+
 
 public function downloadDTR(Request $request)
 {
