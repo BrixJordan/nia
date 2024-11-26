@@ -73,6 +73,13 @@
         <i class="fas fa-list mr-2"></i> EMPLOYEES
     </a>
 </li>
+
+<li>
+    <a href="{{ route('Ticket.index') }}">
+        <i class="fas fa-list mr-2"></i> IT SERVICE TICKET
+    </a>
+</li>
+
 </ul>
 
         </div>

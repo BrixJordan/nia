@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StickerController;
 use App\Http\Controllers\DTRController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,6 +23,9 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('stickers', StickerController::class);
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('ticket', [TicketController::class, 'index'])->name('Ticket.index');
+});
 
 
 // DTR routes
