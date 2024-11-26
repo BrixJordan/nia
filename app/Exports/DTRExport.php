@@ -50,18 +50,16 @@ class DTRExport implements FromArray, WithEvents
                 $templateSheet->setCellValue("C{$row}", $dayName);
                 $templateSheet->setCellValue("R{$row}", date('d', $currentDate));
 
-                // Check if it's a weekend (Saturday or Sunday)
                 if (in_array($dayName, ['Saturday', 'Sunday'])) {
                    
                     $templateSheet->getStyle("B{$row}:C{$row}")->getFont()->getColor()->setRGB('FF0000'); 
                     $templateSheet->getStyle("R{$row}")->getFont()->getColor()->setRGB('FF0000');
-                    // Clear time-related columns for weekends
+
                     $templateSheet->setCellValue("E{$row}", '');
                     $templateSheet->setCellValue("F{$row}", '');
                     $templateSheet->setCellValue("G{$row}", '');
                     $templateSheet->setCellValue("H{$row}", '');
                 } else {
-                    // Fill time-related columns for weekdays
                     $dateKey = date('Y-m-d', $currentDate);
                     $times = $this->dtrRecords[$dateKey] ?? null;
 
