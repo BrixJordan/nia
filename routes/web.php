@@ -24,8 +24,13 @@ Route::middleware('auth')->group(function () {
 Route::resource('stickers', StickerController::class);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('ticket', [TicketController::class, 'index'])->name('Ticket.index');
+    Route::resource('ticket', TicketController::class)->names([
+        'index' => 'Ticket.index',
+        'store' => 'ticket.store',
+
+    ]);
 });
+
 
 
 // DTR routes

@@ -1,5 +1,9 @@
 <x-app-layout>
     <h1>This is Ticket Dashboard</h1>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createTicketModal">
+        Create Sticker
+    </button>
+    @include('Ticket.create_modal')
 
 </x-app-layout>
 <!DOCTYPE html>

@@ -30,6 +30,20 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'ITST_no' => 'required|unique:tickets,ITST_no',
+            'date' => 'required|date',
+            'time' => 'required',
+            'client_name' => 'required|string|max:100',
+            'office' => 'required|string|max:100',
+            'equipment_type' => 'required|string|max:100',
+            'serial_no' => 'required|string|max:100',
+            'problem' => 'required|string|max:255',
+            'validated_problem' => 'required|string|max:255',
+        ]);
+
+        Ticket::create($validated);
+        return redirect()->route('ticket.index')->with('success', 'Ticket created successfully!');
         //
     }
 

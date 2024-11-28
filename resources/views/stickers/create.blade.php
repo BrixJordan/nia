@@ -6,9 +6,7 @@
     </x-slot>
 
     <div class="flex">
-        <div class="side-nav">
-            @include('layouts.side-navigation')
-        </div>
+        
 
         
     </div>
