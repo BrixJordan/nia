@@ -1,11 +1,12 @@
 <x-app-layout>
 <h1>Stickers</h1>
+<section class="Create_Sticker">
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Create Sticker
     </button>
     <br>
-    
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -78,6 +79,8 @@
             </div>
         </div>
     </div>
+
+    </section>
     <br>
 
 

@@ -12,12 +12,13 @@ class Input extends Component
     public $name;
     public $placeholder;
 
-    public function __construct($type = 'text', $name, $placeholder = '')
-    {
-        $this->type = $type;
-        $this->name = $name;
-        $this->placeholder = $placeholder;
-    }
+    public function __construct($name, $type = 'text', $placeholder = '')
+{
+    $this->name = $name;
+    $this->type = $type;
+    $this->placeholder = $placeholder;
+}
+
 
     public function render()
     {
