@@ -4,6 +4,42 @@
         Create Sticker
     </button>
     @include('Ticket.create_modal')
+    <div class="container">
+        <table class="table table-bordered">
+            <thead class="text-center">
+                <tr>
+                <th>ID</th>
+                <th>ITST No</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Client Name</th>
+                <th>Office</th>
+                <th>Equipment Type</th>
+                <th>Action</th>
+                </tr>
+            </thead>
+        
+        <tbody>
+            @foreach($tickets as $ticket)
+            <tr>
+                <td>{{$ticket->id}}</td>
+                <td>{{$ticket->ITST_no}}</td>
+                <td>{{$ticket->date}}</td>
+                <td>{{$ticket->time}}</td>
+                <td>{{$ticket->client_name}}</td>
+                <td>{{$ticket->office}}</td>
+                <td>{{$ticket->equipment_type}}</td>
+                <td>
+                    <button>edit</button>
+                    <button>delete</button>
+                    done
+                </td>
+            </tr>
+            @endforeach
+
+        </tbody>
+        </table>
+    </div>
 
 </x-app-layout>
 <!DOCTYPE html>
