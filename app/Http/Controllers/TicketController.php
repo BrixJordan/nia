@@ -58,8 +58,10 @@ class TicketController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Ticket $ticket)
+    public function edit($id)
     {
+        $ticket = Ticket::findorFail($id);
+        return response()->json($ticket);
         //
     }
 
@@ -68,6 +70,20 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
+        $validated = $request->validate([
+            'ITST_no' => 'required|unique:tickets,ITST_no',
+            'date' => 'required|date',
+            'time' => 'required',
+            'client_name' => 'required|string|max:100',
+            'office' => 'required|string|max:100',
+            'equipment_type' => 'required|string|max:100',
+            'serial_no' => 'required|string|max:100',
+            'problem' => 'required|string|max:255',
+            'validated_problem' => 'required|string|max:255',
+        ]);
+
+        $ticket->update($request->all());
+        return redirect()->route('Ticket.index')->with('success', 'Ticket Updated successfully');
         //
     }
 
@@ -76,6 +92,10 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
+        
+
+        $ticket->delete();
+        return redirect()->back()->with('success', 'Ticket Deleted Successfully');
         //
     }
 }

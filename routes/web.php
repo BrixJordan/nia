@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('ticket', TicketController::class)->names([
         'index' => 'Ticket.index',
         'store' => 'ticket.store',
+        'destroy' => 'Ticket.destroy',
 
     ]);
 });
