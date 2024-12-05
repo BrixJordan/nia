@@ -39,7 +39,10 @@
                     <!-- show button -->
                      <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ticketModal{{$ticket->id}}">Show</button>
                      @include('Ticket.show_modalticket')
+
                      <!-- edit button-->
+                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editTicketModal{{ $ticket->id }}">Edit</button>
+                     @include('Ticket.edit_modal')
 
                       <!-- delelte button -->
                        <form action="{{route('Ticket.destroy', $ticket->id)}}" method="post">

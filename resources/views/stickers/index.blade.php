@@ -142,9 +142,7 @@
                     @endif
                 </td>
                 <td>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#
-                    
-                    {{ $sticker->id }}">Edit</button>
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $sticker->id }}">Edit</button>
 
                     <!-- Modal for Editing -->
                     <div class="modal fade" id="editModal{{ $sticker->id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">

@@ -28,6 +28,8 @@ Route::middleware(['auth'])->group(function () {
         'index' => 'Ticket.index',
         'store' => 'ticket.store',
         'destroy' => 'Ticket.destroy',
+        'update' => 'Ticket.update',
+        'edit' => 'Ticket.edit',
 
     ]);
 });
