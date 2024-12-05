@@ -19,8 +19,8 @@
     </div>
 
    
-    @include('DTR.uploadcsv_modal')
-    @include('DTR.export_modal', ['employees' => $employees])
+    @include('modals.uploadcsv_modal')
+    @include('modals.export_modal', ['employees' => $employees])
    
 
     <script>

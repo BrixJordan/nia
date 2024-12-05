@@ -15,6 +15,9 @@
                 <th>Client Name</th>
                 <th>Office</th>
                 <th>Equipment Type</th>
+                <th>Serial No</th>
+                <th>Problems Reported</th>
+                <th>Validated Problem</th>
                 <th>Action</th>
                 </tr>
             </thead>
@@ -29,16 +32,25 @@
                 <td>{{$ticket->client_name}}</td>
                 <td>{{$ticket->office}}</td>
                 <td>{{$ticket->equipment_type}}</td>
+                <td>{{$ticket->serial_no}}</td>
+                <td>{{$ticket->problem}}</td>
+                <td>{{$ticket->validated_problem}}</td>
                 <td>
-                    <button>edit</button>
-                    <button>delete</button>
-                    done
+                    <!-- show button -->
+                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ticketModal{{$ticket->id}}">Show</button>
+                     @include('Ticket.show_modalticket')
+                     <!-- edit button-->
+                      <!-- delelte button -->
+
+                    
+                
                 </td>
             </tr>
             @endforeach
 
         </tbody>
         </table>
+
     </div>
 
 </x-app-layout>
