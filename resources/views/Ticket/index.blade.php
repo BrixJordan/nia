@@ -48,7 +48,7 @@
                        <form action="{{route('Ticket.destroy', $ticket->id)}}" method="post">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">delete</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this ticket?');">delete</button>
                        </form>
 
                     
