@@ -6,7 +6,6 @@
         Create Sticker
     </button>
     <br>
-
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -79,17 +78,10 @@
             </div>
         </div>
     </div>
-
     </section>
     <br>
-
-
-
-
 <section>
 <div class="container">
-    
-
     <!-- Search Form -->
     <form method="GET" action="{{ route('stickers.index') }}" class="mb-3">
         <div class="input-group">

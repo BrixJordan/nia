@@ -115,21 +115,34 @@ public function generateDTR(Request $request)
     ]);
 
     $acc_no = $request->employee;
+    Log::info('Selected acc_no in generateDTR: ' . $acc_no);
+
+    
+    $employee = Employee::where('acc_no', $acc_no)->first();
+    if (!$employee) {
+        return back()->withErrors(['employee' => 'Employee not found.']);
+    }
+    Log::info('Employee retrieved in generateDTR: ' . json_encode($employee));
+
     $from = Carbon::parse($request->from_date);
     $to = Carbon::parse($request->to_date);
 
+    
+    $logs = \DB::table('dtr_records')
+        ->where('acc_no', $acc_no)
+        ->whereBetween('date_time', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
+        ->orderBy('date_time')
+        ->get();
+    Log::info('Logs retrieved in generateDTR: ' . json_encode($logs));
+
+    
     $dateRange = [];
     while ($from->lte($to)) {
         $dateRange[] = $from->copy()->format('Y-m-d');
         $from->addDay();  
     }
 
-    $logs = \DB::table('dtr_records')
-        ->where('acc_no', $acc_no)
-        ->whereBetween('date_time', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
-        ->orderBy('date_time')
-        ->get();
-
+    
     $dtr = collect();
     foreach ($dateRange as $day) {
         $dtr->put($day, [
@@ -140,6 +153,7 @@ public function generateDTR(Request $request)
         ]);
     }
 
+    
     foreach ($logs as $log) {
         $day = date('Y-m-d', strtotime($log->date_time));
         $time = date('H:i:s', strtotime($log->date_time));
@@ -159,8 +173,15 @@ public function generateDTR(Request $request)
         }
     }
 
-    return view('DTR.dtr_preview', ['dtrRecords' => $dtr, 'employee' => Employee::find($acc_no)]);
+    Log::info('Final DTR data: ' . json_encode($dtr));
+
+    
+    return view('DTR.dtr_preview', [
+        'dtrRecords' => $dtr,
+        'employee' => $employee,
+    ]);
 }
+
 
 
 

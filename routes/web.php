@@ -21,8 +21,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+//Stickers routes
 Route::resource('stickers', StickerController::class);
 
+//Ticket routes
 Route::middleware(['auth'])->group(function () {
     Route::resource('ticket', TicketController::class)->names([
         'index' => 'Ticket.index',
@@ -30,8 +32,9 @@ Route::middleware(['auth'])->group(function () {
         'destroy' => 'Ticket.destroy',
         'update' => 'Ticket.update',
         'edit' => 'Ticket.edit',
-
-    ]);
+        
+]);
+Route::get('/export-ticket/{id}', [TicketController::class, 'exportTicket'])->name('export.ticket');
 });
 
 
@@ -43,8 +46,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dtr/export', [DTRController::class, 'export'])->name('dtr.export');
     Route::get('/dtr/generate', [DTRController::class, 'generateDTR'])->name('dtr.generate');
     Route::post('/dtr/download', [DTRController::class, 'downloadDTR'])->name('dtr.download');
-
-    
 });
 
 // Employee routes

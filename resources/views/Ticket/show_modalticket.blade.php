@@ -30,7 +30,10 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="" class="btn btn-secondary">Download</button>
+                            <button type="button" class="btn btn-secondary">
+    <a href="{{ route('export.ticket', $ticket->id) }}" class="text-white text-decoration-none">Download</a>
+</button>
+
                         </div>
             </div>
     </div>

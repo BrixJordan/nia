@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use App\Exports\TicketExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TicketController extends Controller
 {
@@ -15,6 +17,15 @@ class TicketController extends Controller
         $tickets = Ticket::all();
         return view('Ticket.index', compact('tickets'));
         //
+    }
+
+    public function exportTicket($id)
+    {
+ 
+        $ticket = Ticket::findOrFail($id);
+
+
+        return Excel::download(new TicketExport($ticket), 'ticket_' . $ticket->id . '.xlsx');
     }
 
     /**

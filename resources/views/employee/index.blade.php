@@ -5,7 +5,6 @@
         <h3>Employee List</h3>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">
         Add Employee
-         
     </button>
     @include('employee.create_modal')
         <div class="">
@@ -45,9 +44,8 @@
                     <td><form action="{{route('employee.destroy', $employee->id)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this employee?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this employee?')">Delete</button>
                     </form></td>
-   
                 </tr>
                 @endforeach
             </tbody>
